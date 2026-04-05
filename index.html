@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>obscure your message </title>
+<style>
+  body {
+    font-family: Arial;
+    padding: 20px;
+    background: #f4f4f4;
+  }
+
+  textarea {
+    width: 100%;
+    height: 90px;
+    margin-bottom: 10px;
+    padding: 10px;
+  }
+
+  button {
+    padding: 10px;
+    margin: 5px 0;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+  
+  <h1 class="">Developed by: luscaadevx</h1>
+
+<h2> Criptografar Mensagem</h2>
+<textarea id="entrada" placeholder="Digite sua mensagem..."></textarea>
+<button onclick="criptografar()">Criptografar</button>
+<p id = "crip.error"></p>
+<textarea id="saida" placeholder="Resultado..." readonly></textarea>
+<button onclick="copiar()">Copiar</button>
+<p id ="copy.result"></p>
+<hr>
+
+<h2> Descriptografar</h2>
+<textarea id="entrada2" placeholder="Cole o texto criptografado"></textarea>
+<button onclick="descriptografar()">Descriptografar</button>
+
+<textarea id="saida2" placeholder="Resultado" readonly></textarea>
+
+<p id ="res.error"></p>
+
+<script>
+
+function criptografar() {
+  let texto = document.getElementById("entrada").value;
+  
+  try {
+    let resultado = btoa(unescape(encodeURIComponent(texto)));
+    document.getElementById("saida").value = resultado;
+  } catch (e) {
+    let CripError = document.getElementById("crip.error")
+    CripError.style.color = "Red"
+    CripError.innerHTML = "Erro ao Criptografar"
+  }
+}
+
+
+function descriptografar() {
+  let texto = document.getElementById("entrada2").value;
+
+  try {
+    let resultado = decodeURIComponent(escape(atob(texto)));
+    document.getElementById("saida2").value = resultado;
+  } catch (e) {
+ let Return  = document.getElementById("res.error")
+ 
+ Return.style.color = "red"
+ Return.innerHTML = "Erro ao Descriptografar"
+ 
+  }
+}
+
+
+function copiar() {
+  let texto = document.getElementById("saida");
+  texto.select();
+  document.execCommand("copy");
+ let copy = document.getElementById("copy.result")
+ 
+ copy.style.color = "green"
+ copy.innerHTML = "Texto copiado"
+}
+</script>
+
+</body>
+</html>

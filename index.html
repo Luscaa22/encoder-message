@@ -2,89 +2,190 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>obscure your message </title>
+<title>Obscure Your Message</title>
+
 <style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+  }
+
   body {
-    font-family: Arial;
-    padding: 20px;
-    background: #f4f4f4;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .container {
+    background: #1e293b;
+    padding: 25px;
+    border-radius: 16px;
+    width: 95%;
+    max-width: 500px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #94a3b8;
+  }
+
+  h2 {
+    margin: 15px 0 8px;
+    font-size: 16px;
+    color: #38bdf8;
   }
 
   textarea {
     width: 100%;
     height: 90px;
-    margin-bottom: 10px;
+    border-radius: 10px;
+    border: none;
     padding: 10px;
+    resize: none;
+    background: #0f172a;
+    color: #fff;
+    margin-bottom: 10px;
+    outline: none;
+  }
+
+  textarea::placeholder {
+    color: #64748b;
+  }
+
+  .buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
   }
 
   button {
+    flex: 1;
     padding: 10px;
-    margin: 5px 0;
+    border: none;
+    border-radius: 10px;
     cursor: pointer;
+    background: #38bdf8;
+    color: #0f172a;
+    font-weight: bold;
+    transition: 0.2s;
+  }
+
+  button:hover {
+    background: #0ea5e9;
+    transform: scale(1.03);
+  }
+
+  .copy {
+    background: #22c55e;
+  }
+
+  .copy:hover {
+    background: #16a34a;
+  }
+
+  .error {
+    color: #ef4444;
+    font-size: 13px;
+    margin-bottom: 5px;
+  }
+
+  .success {
+    color: #22c55e;
+    font-size: 13px;
+    margin-bottom: 5px;
+  }
+
+  hr {
+    border: none;
+    height: 1px;
+    background: #334155;
+    margin: 20px 0;
   }
 </style>
+
 </head>
+
 <body>
-  
-  <h1 class="">Developed by: luscaadevx</h1>
 
-<h2> Criptografar Mensagem</h2>
-<textarea id="entrada" placeholder="Digite sua mensagem"></textarea>
-<button onclick="criptografar()">Criptografar</button>
-<p id = "crip.error"></p>
-<textarea id="saida" placeholder="Resultado" readonly></textarea>
-<button onclick="copiar()">Copiar</button>
-<p id ="copy.result"></p>
-<hr>
+<div class="container">
+  <h1>Developed by: <b style="color:#38bdf8;">luscaadevx</b></h1>
 
-<h2> Descriptografar</h2>
-<textarea id="entrada2" placeholder="Cole o texto criptografado"></textarea>
-<button onclick="descriptografar()">Descriptografar</button>
+  <h2>🔐 Criptografar</h2>
+  <textarea id="entrada" placeholder="Digite sua mensagem"></textarea>
 
-<textarea id="saida2" placeholder="Resultado" readonly></textarea>
+  <div class="buttons">
+    <button onclick="criptografar()">Criptografar</button>
+    <button class="copy" onclick="copiar()">Copiar</button>
+  </div>
 
-<p id ="res.error"></p>
+  <p id="cripError" class="error"></p>
+  <p id="copyResult" class="success"></p>
+
+  <textarea id="saida" placeholder="Resultado" readonly></textarea>
+
+  <hr>
+
+  <h2>🔓 Descriptografar</h2>
+  <textarea id="entrada2" placeholder="Cole a mensagem criptografada"></textarea>
+
+  <div class="buttons">
+    <button onclick="descriptografar()">Descriptografar</button>
+  </div>
+
+  <p id="resError" class="error"></p>
+
+  <textarea id="saida2" placeholder="Resultado" readonly></textarea>
+</div>
 
 <script>
-
 function criptografar() {
   let texto = document.getElementById("entrada").value;
-  
+  let erro = document.getElementById("cripError");
+
+  erro.innerHTML = "";
+
   try {
     let resultado = btoa(unescape(encodeURIComponent(texto)));
     document.getElementById("saida").value = resultado;
-  } catch (e) {
-    let CripError = document.getElementById("crip.error")
-    CripError.style.color = "Red"
-    CripError.innerHTML = "Erro ao Criptografar"
+  } catch {
+    erro.innerHTML = "Erro ao criptografar";
   }
 }
 
-
 function descriptografar() {
   let texto = document.getElementById("entrada2").value;
+  let erro = document.getElementById("resError");
+
+  erro.innerHTML = "";
 
   try {
     let resultado = decodeURIComponent(escape(atob(texto)));
     document.getElementById("saida2").value = resultado;
-  } catch (e) {
- let Return  = document.getElementById("res.error")
- 
- Return.style.color = "red"
- Return.innerHTML = "Erro ao Descriptografar"
- 
+  } catch {
+    erro.innerHTML = "Erro descriptografar";
   }
 }
 
-
 function copiar() {
   let texto = document.getElementById("saida");
+  let feedback = document.getElementById("copyResult");
+
   texto.select();
   document.execCommand("copy");
- let copy = document.getElementById("copy.result")
- 
- copy.style.color = "green"
- copy.innerHTML = "Texto copiado"
+
+  feedback.innerHTML = "Copiado";
+  
+  setTimeout(() => {
+    feedback.innerHTML = "";
+  }, 2000);
 }
 </script>
 
